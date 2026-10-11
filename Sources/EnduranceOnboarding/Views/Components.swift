@@ -10,22 +10,28 @@ struct OnboardingProgressIndicator: View {
     @Environment(\.onboardingTheme) private var theme
 
     var body: some View {
+        // Captured as plain values: the GeometryReader and ForEach closures
+        // are `@Sendable` so SwiftUI can run them off the main thread.
+        let index = index
+        let count = count
+        let filled = theme.primary
+        let empty = theme.separator
         Group {
             if count > 10 {
-                GeometryReader { proxy in
+                GeometryReader { @Sendable proxy in
                     ZStack(alignment: .leading) {
-                        Capsule().fill(theme.separator)
+                        Capsule().fill(empty)
                         Capsule()
-                            .fill(theme.primary)
+                            .fill(filled)
                             .frame(width: proxy.size.width * Double(index + 1) / Double(max(count, 1)))
                     }
                 }
                 .frame(width: 160, height: 6)
             } else {
                 HStack(spacing: 6) {
-                    ForEach(0..<max(count, 1), id: \.self) { position in
+                    ForEach(0..<max(count, 1), id: \.self) { @Sendable position in
                         Capsule()
-                            .fill(position <= index ? theme.primary : theme.separator)
+                            .fill(position <= index ? filled : empty)
                             .frame(width: position == index ? 24 : 8, height: 8)
                     }
                 }

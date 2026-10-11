@@ -246,12 +246,21 @@ public struct OnboardingBenefit: Identifiable, Sendable {
 public struct OnboardingOption: Identifiable, Sendable {
     public var id: String
     public var title: LocalizedStringResource
+    /// Optional second line, shown under the title in a smaller, secondary style.
+    public var subtitle: LocalizedStringResource?
     public var systemImage: String?
     public var emoji: String?
 
-    public init(id: String, title: LocalizedStringResource, systemImage: String? = nil, emoji: String? = nil) {
+    public init(
+        id: String,
+        title: LocalizedStringResource,
+        subtitle: LocalizedStringResource? = nil,
+        systemImage: String? = nil,
+        emoji: String? = nil
+    ) {
         self.id = id
         self.title = title
+        self.subtitle = subtitle
         self.systemImage = systemImage
         self.emoji = emoji
     }

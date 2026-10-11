@@ -42,14 +42,19 @@ public struct OnboardingView: View {
         .environment(\.onboardingTheme, theme)
         .preferredColorScheme(theme.colorScheme)
         .animation(stepAnimation, value: controller.currentIndex)
-        .sensoryFeedback(.impact(weight: .light), trigger: controller.currentIndex) { _, _ in
-            controller.options.hapticsEnabled
+        // The condition closures are evaluated during SwiftUI's update, which
+        // can run off the main thread on iOS 26: keep them `@Sendable` and
+        // free of main-actor state.
+        .sensoryFeedback(.impact(weight: .light), trigger: controller.currentIndex) { @Sendable [hapticsEnabled = hapticsEnabled] _, _ in
+            hapticsEnabled
         }
-        .sensoryFeedback(.selection, trigger: controller.answers) { _, _ in
-            controller.options.hapticsEnabled
+        .sensoryFeedback(.selection, trigger: controller.answers) { @Sendable [hapticsEnabled = hapticsEnabled] _, _ in
+            hapticsEnabled
         }
         .task { await controller.start() }
     }
+
+    private var hapticsEnabled: Bool { controller.options.hapticsEnabled }
 
     // MARK: Chrome
 

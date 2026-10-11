@@ -416,4 +416,12 @@ struct LocalizationTests {
         #expect(L10n.progress(1, 3).contains("3"))
         #expect(!L10n.continueButton.isEmpty)
     }
+
+    @Test func optionSubtitleIsOptionalAndAdditive() {
+        let plain = OnboardingOption(id: "a", title: "A", systemImage: "star")
+        #expect(plain.subtitle == nil)
+        let detailed = OnboardingOption(id: "b", title: "B", subtitle: "More detail", emoji: "🌙")
+        #expect(detailed.subtitle != nil)
+        #expect(detailed.emoji == "🌙")
+    }
 }
