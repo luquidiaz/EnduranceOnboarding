@@ -2,6 +2,11 @@
 
 All notable changes to this package. Apps pin an exact version; see the README.
 
+## 0.1.2 (2026-10-11)
+
+### Added
+- Package strings in six more languages: Simplified Chinese (zh-Hans), Traditional Chinese (zh-Hant), Dutch (nl), Swedish (sv), Polish (pl) and Turkish (tr). Informal register (je/du/ty/sen/你). Buttons, progress and the multiple-choice hint no longer fall back to English there. No API changes.
+
 ## 0.1.1 (2026-10-11)
 
 ### Fixed

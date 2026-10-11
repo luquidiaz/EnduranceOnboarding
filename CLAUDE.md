@@ -24,7 +24,8 @@ RevenueCat: el paywall lo presenta la app en `onFinish`.
 - `OnboardingEvent`: `name`/`parameters` listos para Firebase (`onboarding_*`).
 - `OnboardingController`: la lógica (navegación, respuestas, eventos), testeable sin UI.
 - Strings del paquete en `Resources/Localizable.xcstrings` (en, es, pt-BR, de,
-  fr, it, ja, ko). Un string nuevo va en los 8 idiomas. El copy de la app es
+  fr, it, ja, ko, zh-Hans, zh-Hant, nl, sv, pl, tr). Un string nuevo va en los 14
+  idiomas (y en `LocalizationTests.languages`). El copy de la app es
   `LocalizedStringResource` y se traduce en la app.
 - `hasCompletedOnboarding` lo maneja la app. La persistencia de progreso es opcional.
 

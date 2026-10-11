@@ -391,7 +391,10 @@ struct PersistenceTests {
 @Suite("Localization")
 struct LocalizationTests {
 
-    static let languages = ["en", "es", "pt-BR", "de", "fr", "it", "ja", "ko"]
+    static let languages = [
+        "en", "es", "pt-BR", "de", "fr", "it", "ja", "ko",
+        "zh-Hans", "zh-Hant", "nl", "sv", "pl", "tr"
+    ]
     static let keys = [
         "button.continue", "button.get_started", "button.skip", "button.back",
         "question.select_all", "progress.short", "progress.accessibility"

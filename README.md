@@ -5,14 +5,14 @@ One onboarding for every Endurance Apptitude app, built to lead into the paywall
 - Typed Swift configuration (no JSON). Answers are keyed by the step `key`, never by index.
 - Step types: hero, benefits, question (single/multi), permission (real system prompt), review pre-prompt, custom view and loading.
 - Theming from your app's own tokens and Color assets, so light and dark mode follow your app.
-- Package strings in 8 languages (en, es, pt-BR, de, fr, it, ja, ko). Your copy is `LocalizedStringResource`, so it lives in your app's String Catalog.
+- Package strings in 14 languages (en, es, pt-BR, de, fr, it, ja, ko, zh-Hans, zh-Hant, nl, sv, pl, tr). Your copy is `LocalizedStringResource`, so it lives in your app's String Catalog.
 - Analytics hooks with Firebase-ready names and parameters.
 - Dynamic Type, VoiceOver, Reduce Motion and optional haptics.
 - iOS 17+, Swift 6 strict concurrency, no dependencies. RevenueCat stays in the app: `onFinish` hands you the answers so you can present the paywall.
 
 ## Install
 
-In Xcode, go to File → Add Package Dependencies and use `https://github.com/luquidiaz/EnduranceOnboarding`. Set the rule to **Exact Version** (for example `0.1.1`). See [CHANGELOG.md](CHANGELOG.md).
+In Xcode, go to File → Add Package Dependencies and use `https://github.com/luquidiaz/EnduranceOnboarding`. Set the rule to **Exact Version** (for example `0.1.2`). See [CHANGELOG.md](CHANGELOG.md).
 
 ## Integration
 
