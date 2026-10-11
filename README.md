@@ -12,7 +12,7 @@ One onboarding for every Endurance Apptitude app, built to lead into the paywall
 
 ## Install
 
-In Xcode, go to File → Add Package Dependencies and use `https://github.com/luquidiaz/EnduranceOnboarding`. Set the rule to **Exact Version** (for example `0.1.0`).
+In Xcode, go to File → Add Package Dependencies and use `https://github.com/luquidiaz/EnduranceOnboarding`. Set the rule to **Exact Version** (for example `0.1.1`). See [CHANGELOG.md](CHANGELOG.md).
 
 ## Integration
 
@@ -81,7 +81,8 @@ struct RootView: View {
                           selection: .multiple(minimum: 1),
                           options: [
                               OnboardingOption(id: "week_before", title: "A week before", systemImage: "calendar"),
-                              OnboardingOption(id: "day_before", title: "The day before", systemImage: "clock"),
+                              OnboardingOption(id: "day_before", title: "The day before",
+                                               subtitle: "Time to grab a gift", systemImage: "clock"),
                           ])
                     .skippable(),
 
@@ -122,6 +123,10 @@ struct RootView: View {
 
 Modifiers: `.skippable()`, `.footnote(_:systemImage:)` and `.buttonTitle(_:)`.
 
+`OnboardingOption(id:title:subtitle:systemImage:emoji:)`: `subtitle` is optional and is shown under the title in a smaller, secondary style. Each option row has the accessibility identifier `onboarding.option.<id>` for UI tests (the primary button is `onboarding.primary`).
+
+In landscape on iPhone, every step scrolls when it doesn't fit (the hero switches to visual-beside-text), so nothing gets cut.
+
 ## Answers
 
 `onFinish` receives `OnboardingAnswers` (`[String: [String]]`):
@@ -159,6 +164,12 @@ OnboardingOptions(
 
 `hasCompletedOnboarding` is the app's responsibility.
 
+## iOS 26 and custom steps
+
+On iOS 26, SwiftUI may build parts of the view tree on a background thread (`com.apple.SwiftUI.AsyncRenderer`), for example the rows of a `ForEach` during a step transition. With Swift 6, a closure written inside a `body` is main-actor isolated and traps there. 0.1.0 crashed this way on question steps; 0.1.1 fixes it inside the package, so apps need no workaround.
+
+If your `.custom` steps or hero visuals use `ForEach`, `GeometryReader` or other closures that SwiftUI calls later, apply the same rule in your code: make the closure `@Sendable` and capture plain values (see `QuestionStepView` and `OptionRow` in `Views/StepViews.swift`).
+
 ## Development
 
 `swift build` doesn't work because the package is iOS-only (SwiftUI/UIKit). Use:
@@ -170,6 +181,13 @@ xcodebuild test -scheme EnduranceOnboarding -destination 'platform=iOS Simulator
 # Render the demo flow (2 themes × light/dark) to PNGs
 TEST_RUNNER_ONBOARDING_SCREENSHOT_DIR=/tmp/onboarding-shots \
   xcodebuild test -scheme EnduranceOnboarding -destination 'platform=iOS Simulator,name=iPhone Air'
+```
+
+`Example/OnboardingExample.xcodeproj` is a small host app that uses the package from this checkout, with UI tests that walk the whole flow on a simulator (including the iOS 26 async-renderer case and landscape):
+
+```sh
+xcodebuild test -project Example/OnboardingExample.xcodeproj -scheme OnboardingExample \
+  -destination 'platform=iOS Simulator,name=iPhone 17'
 ```
 
 `Sources/EnduranceOnboarding/Demo/OnboardingPreviews.swift` holds Xcode previews with two sample themes (Birthday raspberry and Fan Noise midnight). It's only compiled in DEBUG.
